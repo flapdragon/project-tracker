@@ -7,8 +7,11 @@ const Login = () => {
   const [ passwordNotValid, setPasswordNotValid ] = useState(false)
 
   // TODO: Get an email regex that actually works
-  // TODO: From https://emailregex.com/
-  const emailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
+  // TODO: From https://emailregex.com/ - IE Not from these guys
+  const emailRegexOLDANDBUESTED = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
+
+  // TODO: Make sure username and domain name don't allow multiple consecutive dashes, underscores or periods
+  const emailRegex = /^[a-zA-Z0-9\-._]*@[a-zA-Z0-9\-.]*.[.com|.org|.net|.int|.edu|.gov|.mil]$/
 
   const handleEmail = (e) => {
     setEmail(e.target.value)
@@ -43,8 +46,8 @@ const Login = () => {
       setPasswordNotValid(false)
     }
     if (email.length > 5 && password.length >= 4) {
-    // Check login, axios
-    console.log("hunky dory")
+      // Check login, axios
+      console.log("hunky dory")
     }
   }
 
