@@ -2,6 +2,7 @@ import "dotenv/config"
 import express from "express"
 import cors from "cors"
 import "./connectdb.js"
+import usersRouter from "./usersRoutes/index.js"
 
 const app = express()
 app.use(express.json()) // Parse request body as JSON
@@ -31,6 +32,9 @@ app.use(cors(corsOptions))
 app.get("/", (req, res) => {
   res.send({ status: "Success!" })
 })
+
+// Users routes
+app.use("/users", usersRouter)
 
 // Start Express
 app.listen(port, () => {
