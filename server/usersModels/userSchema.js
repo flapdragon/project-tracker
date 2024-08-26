@@ -1,5 +1,7 @@
 import mongoose from "mongoose"
 
+const Schema = mongoose.Schema
+
 const sessionSchema = new Schema({
   refreshToken: {
     type: String,
@@ -7,12 +9,20 @@ const sessionSchema = new Schema({
   }
 })
 
-const userSchema = mongoose.Schema({
+const userSchema = new Schema({
   firstName: {
     type: String,
     default: ""
   },
   lastName: {
+    type: String,
+    default: ""
+  },
+  username: {
+    type: String,
+    default: ""
+  },
+  email: {
     type: String,
     default: ""
   },
