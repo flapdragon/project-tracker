@@ -1,5 +1,6 @@
 import "dotenv/config"
 import express, { application } from "express"
+import session from "express-session"
 import cors from "cors"
 import cookieParser from "cookie-parser"
 import passport from "passport"
@@ -12,6 +13,8 @@ const app = express()
 app.use(express.json()) // Parse request body as JSON
 app.use(cookieParser(process.env.COOKIE_SECRET))
 const port = 8000
+
+app.use(session({}))
 
 // CORS
 // Get whitelisted domains from env
