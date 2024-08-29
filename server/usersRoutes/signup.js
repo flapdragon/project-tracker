@@ -6,12 +6,12 @@ const signup = (req, res, next) => {
   // Get inputs
   const { firstName, lastName, username, email, password } = req.body
   // If all fields aren't valid
-  if (!firstName || !lastName || !username || !email) {
+  if (!firstName || !lastName || !username || !email || !password) {
     res.status(200).json({ success: false, message: "All required inputs must be entered." })
   }
   else {
     userModel.register(
-      new User({ firstName, lastName, username, email }),
+      { firstName, lastName, username, email },
       password,
       (err, user) => {
         if (err) {
@@ -21,15 +21,9 @@ const signup = (req, res, next) => {
           const token = getToken({ _id: user._id })
           const refreshToken = getRefreshToken({ _id: user._id })
           user.refreshToken.push({ refreshToken })
-          user.save((err, user) => {
-            if (err) {
-              res.status(200).json(err)
-            }
-            else {
-              res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS)
-              res.status(200).json({ success: true, token })
-            }
-          })
+          user.save()
+          res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS)
+          res.status(200).json({ success: true, token })
         }
       }
     )

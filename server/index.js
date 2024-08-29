@@ -1,11 +1,16 @@
 import "dotenv/config"
-import express from "express"
+import express, { application } from "express"
 import cors from "cors"
-import "./connectdb.js"
+import cookieParser from "cookie-parser"
+import passport from "passport"
+import "./connectdb.js" // MongoDB
+import "./strategies/jwtStrategy.js" // JWT Strategy
+import "./strategies/localStrategy.js" // Local Strategy
 import usersRouter from "./usersRoutes/index.js"
 
 const app = express()
 app.use(express.json()) // Parse request body as JSON
+app.use(cookieParser(process.env.COOKIE_SECRET))
 const port = 8000
 
 // CORS
@@ -27,6 +32,9 @@ const corsOptions = {
 }
 // Use CORS
 app.use(cors(corsOptions))
+
+// Add Passport to Express
+app.use(passport.initialize())
 
 // Temp route
 app.get("/", (req, res) => {
