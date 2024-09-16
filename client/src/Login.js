@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { authLogin } from "./auth/authSlice"
+import { authLogin } from "./auth/authLoginSlice"
 
 const Login = () => {
   const [ email, setEmail ] = useState("")
@@ -11,9 +11,10 @@ const Login = () => {
   
   // TODO: Add error state handling in form
   
-  const { loading, success } = useSelector((state) => ({
+  const { loading, success, error } = useSelector((state) => ({
     loading: state.auth.loading,
-    success: state.auth.success
+    success: state.auth.success,
+    error: state.auth.error
   }))
 
   const dispatch = useDispatch()
