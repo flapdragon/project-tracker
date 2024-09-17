@@ -1,17 +1,32 @@
-import { useState } from "react"
-import axios from "axios"
+import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { authLogin } from "./auth/authLoginSlice"
 
 const Login = () => {
   const [ email, setEmail ] = useState("")
   const [ emailNotValid, setEmailNotValid ] = useState(false)
   const [ password, setPassword ] = useState("")
   const [ passwordNotValid, setPasswordNotValid ] = useState(false)
-  const [ isSubmitting, setIsSubmitting ] = useState(false)
-  const [ error, setError ] = useState("")
-  const [ token, setToken ] = useState("")
+  
+  // TODO: Add error state handling in form
+  
+  const { loading, success, error } = useSelector((state) => ({
+    loading: state.auth.loading,
+    success: state.auth.success,
+    error: state.auth.error
+  }))
 
-  // TODO: Add Redux, set token in Redux
-  // TODO: On successful login redirect to dashbaord
+  const dispatch = useDispatch()
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    // On successful login redirect to dashbaord
+    if (success) {
+      navigate("/dashboard")
+    }
+  }, [success])
 
   // TODO: Make sure username and domain name don't allow multiple consecutive dashes, underscores or periods
   const emailRegex = /^[a-zA-Z0-9\-._]*@[a-zA-Z0-9\-.]*.[.com|.org|.net|.int|.edu|.gov|.mil]$/
@@ -32,14 +47,7 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // Email
-    // if (emailRegex.test(email) === false) {
-    //   // Set form error styles
-    //   setEmailNotValid(true)
-    // }
-    // else {
-    //   setEmailNotValid(false)
-    // }
+    // TODO: Update username/email validation
     // Email logic
     if (email.length < 4) {
       setEmailNotValid(true)
@@ -56,50 +64,8 @@ const Login = () => {
       setPasswordNotValid(false)
     }
     if (email.length > 3 && password.length >= 4) {
-      // Disable submit button
-      setIsSubmitting(true)
-      // Check login, axios
-      axios.post(`${process.env.REACT_APP_SERVER}/users/login`,
-        { username: email, password },
-        { headers: { 'Content-Type': 'application/json' }}
-      ).then(res => {
-        console.log(res)
-        // If credentials are not valid
-        if (!res.data.success) {
-          // Check for error code
-          if (res.status === 400) {
-            setError("Please enter all required fields.")
-          }
-          else if (res.status === 401) {
-            setError("Invalid credentials.")
-          }
-          else {
-            setError("There was an error. Please check your credentials and try again.")
-          }
-        }
-        // If creedentials are valid
-        else {
-          const { token } = res.data
-          console.log(token)
-          // Set state
-          setToken(token)
-          // Reset submit button
-          setIsSubmitting(false)
-          // Reset error message
-          setError("")
-          // Redirect to dashboard
-        }
-      }).catch(err => {
-        if (err.status === 401) {
-          // Set error message
-          setError("Invalid credentials.")
-          // Reset submit button
-          setIsSubmitting(false)
-        }
-        else {
-          setError("There was an error. Please check your credentials and try again.")
-        }
-      })
+      // Dispatch login action
+      dispatch(authLogin({ username: email, password }))
     }
   }
 
@@ -146,7 +112,7 @@ const Login = () => {
         </div>
         <button
           type="submit"
-          disabled={isSubmitting}
+          disabled={loading}
           className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
           Sign In
