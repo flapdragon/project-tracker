@@ -33,7 +33,7 @@ const refreshToken = (req, res, next) => {
         })
     }
     catch (err) {
-      res.send(200).json(err)
+      res.status(200).json("Unauthorized")
     }
   }
   else {

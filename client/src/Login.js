@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { authLogin } from "./auth/authLoginSlice"
+import { authLogin } from "./auth/authSlice"
 
 const Login = () => {
   const [ email, setEmail ] = useState("")
@@ -22,6 +22,7 @@ const Login = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
+    console.log(loading, success, error)
     // On successful login redirect to dashbaord
     if (success) {
       navigate("/dashboard")

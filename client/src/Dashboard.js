@@ -1,6 +1,19 @@
+import { useEffect } from "react"
+import { useSelector } from "react-redux"
+
 // TODO: Make actual dashbaord not random card
 
 const Dashboard = () => {
+  const isLoggedIn = useSelector((state) => {
+    console.log(state)
+    return state.auth.isLoggedIn
+})
+
+  useEffect(() => {
+    console.log(isLoggedIn)
+  }, [isLoggedIn])
+
+
   return (
     <div className="flex flex-col rounded-2xl w-96 bg-[#ffffff] shadow-xl">
       <figure className="flex justify-center items-center rounded-2xl">
