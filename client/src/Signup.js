@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useNavigate, Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { authSignup } from "./auth/authSignupSlice"
+import { authSignup } from "./auth/authSlice"
 
 const Signup = () => {
   const [ name, setName ] = useState("")

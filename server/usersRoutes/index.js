@@ -11,6 +11,6 @@ const usersRouter = express.Router()
 usersRouter.post("/signup", signup)
 usersRouter.post("/login", passport.authenticate("local"), login)
 usersRouter.post("/refreshToken", refreshToken)
-usersRouter.post("/me", verifyUser, me)
+usersRouter.get("/me", verifyUser, me)
 
 export default usersRouter
